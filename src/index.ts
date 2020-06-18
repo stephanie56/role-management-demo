@@ -1,23 +1,17 @@
 import 'reflect-metadata';
 import { ApolloServer } from 'apollo-server-express';
 import * as express from 'express';
-import { Resolver, Query, buildSchema } from 'type-graphql';
-
-// Resolver is like a controller that
-// resolve data for the server, this simple
-// resolver returns the string 'hello world' back
-@Resolver()
-class HelloResolver {
-  @Query(() => String, { nullable: true })
-  async hello() {
-    return 'hello world';
-  }
-}
+import { buildSchema } from 'type-graphql';
+import { createConnection } from 'typeorm';
+import { RegisterResolver } from './modules/user/Register';
 
 // Initialize an apollo server instance
 const main = async () => {
+  // Create a database connection using the ormconfig.json setup
+  await createConnection();
+
   const schema = await buildSchema({
-    resolvers: [HelloResolver],
+    resolvers: [RegisterResolver],
   });
   // The ApolloServer constructor requires two parameters:
   // the schema definition and set of resolvers

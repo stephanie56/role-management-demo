@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from 'typeorm';
-import { ObjectType, Field, ID } from 'type-graphql';
+import { ObjectType, Field, ID, Root } from 'type-graphql';
 
 // Create a database table `User`
 @ObjectType()
@@ -22,8 +22,11 @@ export class User extends BaseEntity {
   email: string;
 
   // GraphQL schema
+  // Resolve the `name` field for the User type
   @Field()
-  name: string;
+  name(@Root() parent: User): string {
+    return `${parent.firstName} ${parent.lastName}`;
+  }
 
   // Database column
   @Column()

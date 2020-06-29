@@ -12,13 +12,12 @@ export class RegisterUserResolver {
     return selectedUser;
   }
 
-  // @Query(() => User)
-  // async allUsers() {
-  //   const allUsers = await User.find({
-  //     where: { role: 'guest' },
-  //   });
-  //   return allUsers;
-  // }
+  // Get all users
+  @Query(() => [User])
+  async allUsers() {
+    const allUsers = await User.find();
+    return allUsers;
+  }
 
   @Mutation(() => User)
   async register(

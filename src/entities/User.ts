@@ -1,4 +1,11 @@
-import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  BaseEntity,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { ObjectType, Field, ID, Root } from 'type-graphql';
 
 export enum UserRole {
@@ -35,6 +42,14 @@ export class User extends BaseEntity {
     default: UserRole.GUEST,
   })
   role: UserRole;
+
+  @Field()
+  @CreateDateColumn({ name: 'created_at' })
+  createdAt: Date;
+
+  @Field()
+  @UpdateDateColumn({ name: 'updated_at' })
+  updatedAt: Date;
 
   // GraphQL schema
   // Resolve the `name` field for the User type

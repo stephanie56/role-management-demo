@@ -3,7 +3,8 @@ import { ApolloServer } from 'apollo-server-express';
 import * as express from 'express';
 import { buildSchema } from 'type-graphql';
 import { createConnection } from 'typeorm';
-import { UserResolver } from './modules/user/Register';
+import { RegisterUserResolver } from './modules/user/Register';
+import { UpdateUserResolver } from './modules/user/Update';
 
 // Initialize an apollo server instance
 const main = async () => {
@@ -11,7 +12,7 @@ const main = async () => {
   await createConnection();
 
   const schema = await buildSchema({
-    resolvers: [UserResolver],
+    resolvers: [RegisterUserResolver, UpdateUserResolver],
   });
   // The ApolloServer constructor requires two parameters:
   // the schema definition and set of resolvers

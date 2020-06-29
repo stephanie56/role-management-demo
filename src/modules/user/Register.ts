@@ -4,13 +4,21 @@ import { User } from '../../entities/User';
 import { RegisterInput } from './RegisterInput';
 
 @Resolver()
-export class UserResolver {
+export class RegisterUserResolver {
   // Find user by ID
   @Query(() => User)
   async user(@Arg('id') id: number) {
     const selectedUser = await User.findOne(id);
     return selectedUser;
   }
+
+  // @Query(() => User)
+  // async allUsers() {
+  //   const allUsers = await User.find({
+  //     where: { role: 'guest' },
+  //   });
+  //   return allUsers;
+  // }
 
   @Mutation(() => User)
   async register(

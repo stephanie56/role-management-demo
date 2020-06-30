@@ -7,7 +7,7 @@ import { UserInputError } from 'apollo-server-express';
 export class UpdateUserResolver {
   @Mutation(() => User)
   async update(
-    @Arg('data') { id, firstName, lastName, email }: UpdateInput
+    @Arg('user') { id, firstName, lastName, email }: UpdateInput
   ): Promise<User> {
     let selectedUser = await User.findOne(id);
     if (!selectedUser) {
@@ -18,11 +18,11 @@ export class UpdateUserResolver {
     selectedUser.lastName = lastName || selectedUser.lastName;
     selectedUser.email = email || selectedUser.email;
 
-    return await selectedUser.save();
+    return (await selectedUser.save()) || new Error('Failed to update user.');
   }
 
   @Mutation(() => User)
-  async updateRole(@Arg('data') { id, role }: UpdateInput): Promise<User> {
+  async updateRole(@Arg('user') { id, role }: UpdateInput): Promise<User> {
     let selectedUser = await User.findOne(id);
     if (!selectedUser) {
       throw new UserInputError('User not found');
@@ -30,6 +30,6 @@ export class UpdateUserResolver {
 
     selectedUser.role = role;
 
-    return await selectedUser.save();
+    return (await selectedUser.save()) || new Error('Failed to update user.');
   }
 }

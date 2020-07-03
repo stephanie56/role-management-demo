@@ -24,6 +24,10 @@ export class RegisterUserResolver {
   async registerUser(
     @Arg('user') { firstName, lastName, email, password, role }: RegisterInput
   ): Promise<User> {
+    const existingUser = await User.find({ email });
+    if (existingUser) {
+      throw new Error('User already exists.');
+    }
     // Hash user password
     const saltRounds = 12;
     const hashedPassword = await bcrypt.hash(password, saltRounds);

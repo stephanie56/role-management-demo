@@ -1,7 +1,6 @@
-import { Resolver, Query, Mutation, Arg } from 'type-graphql';
+import { Resolver, Mutation, Arg } from 'type-graphql';
 import { User } from '../../entities/User';
 import { UpdateInput } from './UpdateInput';
-import { UserInputError } from 'apollo-server-express';
 
 @Resolver()
 export class UpdateUserResolver {
@@ -11,7 +10,7 @@ export class UpdateUserResolver {
   ): Promise<User> {
     let selectedUser = await User.findOne(id);
     if (!selectedUser) {
-      throw new UserInputError('User not found');
+      throw new Error('User not found');
     }
 
     selectedUser.firstName = firstName || selectedUser.firstName;
@@ -25,7 +24,7 @@ export class UpdateUserResolver {
   async updateRole(@Arg('user') { id, role }: UpdateInput): Promise<User> {
     let selectedUser = await User.findOne(id);
     if (!selectedUser) {
-      throw new UserInputError('User not found');
+      throw new Error('User not found');
     }
 
     selectedUser.role = role;

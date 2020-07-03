@@ -28,14 +28,10 @@ const main = async () => {
 
   const app = express();
 
-  app.use(
-    cors({
-      origin: '*',
-      credentials: true,
-    })
-  );
-
-  apolloServer.applyMiddleware({ app });
+  apolloServer.applyMiddleware({
+    app,
+    cors: { origin: 'http://localhost:4200', credentials: true },
+  });
 
   app.listen(4000, () => {
     console.log('server started on port http://localhost:4000/graphql');

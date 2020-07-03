@@ -24,7 +24,7 @@ export class RegisterUserResolver {
   async registerUser(
     @Arg('user') { firstName, lastName, email, password, role }: RegisterInput
   ): Promise<User> {
-    const existingUser = await User.find({ email });
+    const existingUser = await User.findOne({ email });
     if (existingUser) {
       throw new Error('User already exists.');
     }
